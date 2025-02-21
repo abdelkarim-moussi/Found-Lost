@@ -14,10 +14,11 @@
                 {{ $post[0]->title }}
             </h2>
             <p class="text-gray-600 mb-4">{{ $post[0]->description }}</p>
-            <div class="flex items-center text-gray-500 text-sm">
+            <div class="flex items-center text-gray-500 text-sm mb-5">
                 <span class="mr-4">📅 {{ $post[0]->date }}</span>
                 <span>📍 {{ $post[0]->place }}</span>
             </div>
+            <a href="/delete/{{$post[0]->id}}" class="bg-red-400 px-3 py-1 rounded mt-5">delete</a>
         </div>
     </div>
     

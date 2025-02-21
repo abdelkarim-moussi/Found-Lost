@@ -16,7 +16,8 @@ class Post extends Model
         'description',
         'category',
         'date',
-        'place'
+        'place',
+        'cover'
     ];
 
     public function comments(){

@@ -14,8 +14,9 @@ class PostController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $posts = Post::simplePaginate(6);
-        return view('posts/index',['posts'=>$posts,'categories'=>$categories]);
+        $posts = Post::all();
+        $stats = Post::all()->count();
+        return view('posts/index',['posts'=>$posts,'categories'=>$categories,'stats'=>$stats]);
     }
 
     public function show($id)
@@ -27,19 +28,32 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+    
+            $validate = $request->validate(
+                [
+                    'title'=>"required | string",
+                    'description'=>"required | string | min:100",
+                    'place'=>"required | string"
+                ]
+                );
+
             $post = Post::create(
             [
                 'user_id'=>Auth::user()->id,
-                'title'=> strtolower($request->input('title')),
-                'description'=> strtolower($request->input('description')),
+                'title'=> strtolower($validate['title']),
+                'description'=> strtolower($validate['description']),
                 'cat_id'=> $request->input('category'),
                 'date'=> $request->input('date'),
-                'place'=> $request->input('place')
+                'place'=> $validate['place'],
+                'cover'=>$request->cover->path()
             ]
             );
 
+            $post['cover'] = $request->cover->store('images');
+
+            dd($post);
             $post->save();
-            return redirect("/posts");
+            // return redirect("/posts");
 
     }
 
@@ -52,11 +66,35 @@ class PostController extends Controller
         ->orWhere('description','like',"%{$key}%")
         ->orWhere('place','like',"%{$key}%")
         ->orderBy('created_at','desc')
-        ->paginate(6);
+        ->get();
+        // ->paginate(6);
 
         $categories = Category::all();
         return view('posts/index',['posts'=>$posts,'categories'=>$categories]);
 
+    }
+
+    public function filter(Request $request)
+    {
+        $category = Category::query()
+        ->where('name','like',$request->filter)->get();
+
+        $posts = Post::query()
+        ->where('cat_id','=',$category[0]->id)
+        ->orderBy('created_at','desc')
+        ->get();
+        // // ->paginate(6);
+
+        $categories = Category::all();
+        return view('posts/index',['posts'=>$posts,'categories'=>$categories]);
+
+    }
+
+    public function deletePost($id){
+        $post = Post::find($id);
+        $post->delete();
+
+        return redirect("posts");
     }
 
 }

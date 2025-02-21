@@ -31,6 +31,8 @@ Route::get('/posts/{id}', [PostController::class,'show']);
 Route::post('/comment',[CommentController::class,'addComment']);
 
 Route::get('/search',[PostController::class,'search']);
+Route::get('/filter',[PostController::class,'filter']);
+Route::get('/delete/{id}',[PostController::class,'deletePost']);
 
 Route::get('/', function () {
     return view('welcome');
