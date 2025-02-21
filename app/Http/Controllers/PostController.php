@@ -14,7 +14,7 @@ class PostController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $posts = Post::all();
+        $posts = Post::simplePaginate(6);
         return view('posts/index',['posts'=>$posts,'categories'=>$categories]);
     }
 
@@ -52,7 +52,7 @@ class PostController extends Controller
         ->orWhere('description','like',"%{$key}%")
         ->orWhere('place','like',"%{$key}%")
         ->orderBy('created_at','desc')
-        ->get();
+        ->paginate(6);
 
         $categories = Category::all();
         return view('posts/index',['posts'=>$posts,'categories'=>$categories]);

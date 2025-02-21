@@ -48,6 +48,8 @@
                     </div>
                 </div>
             @endforeach
+
+            {$posts->link()}
         </div>
     </main>
 
