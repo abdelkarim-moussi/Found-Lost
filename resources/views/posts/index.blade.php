@@ -1,4 +1,13 @@
-<x-app-layout>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>FoundLost</title>
+</head>
+<body>
+    
 
     <header class="relative bg-cover bg-center h-96 flex items-center justify-center" style="background-image: url('images/bg.jpg');">
         <div class="absolute inset-0 bg-black opacity-50"></div>
@@ -7,9 +16,22 @@
             <p class="text-xl text-gray-200">Discover the latest updates and stories from around the world.</p>
         </div>
     </header>
+
     <main class="p-5">
-        <div>
-            <a href="/posts/create" class="bg-blue-500 text-white rounded px-6 py-1.5">add post</a>
+        <div class="flex gap-5 items-center justify-between">
+            <div class="w-[50%] flex gap-5 items-center">
+                <select name="filter" id="filter" class="block px-3 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+                    @foreach($categories as $category)
+                        <option value="{{ $category->name }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+                <form action="/search" method="GET" role="search" class="flex w-full items-center justify-center gap-3">
+                    <input type="search" name="search" class="block px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+                    </input>
+                    <button type="submit" class="flex-1 bg-blue-500 px-5 text-white rounded py-1">search</button>
+                </form>
+            </div>
+            <a href="/posts/create" class="bg-blue-500 text-white rounded px-5 py-1">add post</a>
         </div>
         <div class="container mx-auto py-12 grid grid-cols-1 md:grid-cols-3 gap-10">
 
@@ -29,8 +51,8 @@
         </div>
     </main>
 
-</x-app-layout>
-
+</body>
+</html>
 
 
 

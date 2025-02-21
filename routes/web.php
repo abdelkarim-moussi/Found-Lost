@@ -4,6 +4,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Models\Category;
 use App\Models\Post;
 
 /*
@@ -19,7 +20,8 @@ use App\Models\Post;
 Route::get('/posts', [PostController::class,'index']);
 
 Route::get('/posts/create',function(){
-    return view('posts/create');
+    $categories = Category::all();
+    return view('posts/create',['categories'=>$categories]);
 })->middleware(['auth','verified']);
 
 Route::post('/posts',[PostController::class,'store']);
@@ -28,6 +30,7 @@ Route::get('/posts/{id}', [PostController::class,'show']);
 
 Route::post('/comment',[CommentController::class,'addComment']);
 
+Route::get('/search',[PostController::class,'search']);
 
 Route::get('/', function () {
     return view('welcome');

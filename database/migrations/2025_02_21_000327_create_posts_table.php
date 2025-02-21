@@ -17,9 +17,10 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('cat_id');
+            $table->foreign('cat_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
             $table->string('title');
             $table->string('description');
-            $table->string('category');
             $table->date('date');
             $table->string('place');
             $table->timestamps();
